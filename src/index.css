@@ -1,1 +1,214 @@
 @import "tailwindcss";
+
+/* =========================================================================
+   ZenTask Design Tokens — ported from design-system/colors_and_type.css
+   ========================================================================= */
+
+:root {
+  /* Brand — indigo */
+  --indigo-50:  oklch(97.5% 0.012 265);
+  --indigo-100: oklch(94%   0.030 265);
+  --indigo-200: oklch(87%   0.055 263);
+  --indigo-300: oklch(78%   0.095 262);
+  --indigo-400: oklch(66%   0.155 261);
+  --indigo-500: oklch(56%   0.190 261);
+  --indigo-600: oklch(48%   0.180 262);
+  --indigo-700: oklch(40%   0.155 263);
+  --indigo-800: oklch(32%   0.115 264);
+  --indigo-900: oklch(24%   0.075 265);
+
+  /* Auxiliary — sage */
+  --sage-50:  oklch(97.5% 0.012 168);
+  --sage-100: oklch(94%   0.025 168);
+  --sage-200: oklch(88%   0.045 168);
+  --sage-300: oklch(78%   0.065 168);
+  --sage-400: oklch(68%   0.085 170);
+  --sage-500: oklch(58%   0.095 172);
+  --sage-600: oklch(49%   0.090 174);
+  --sage-700: oklch(40%   0.075 176);
+  --sage-800: oklch(32%   0.055 178);
+  --sage-900: oklch(24%   0.035 180);
+
+  /* Neutral */
+  --neutral-0:   oklch(100%  0     0);
+  --neutral-25:  oklch(99%   0.003 250);
+  --neutral-50:  oklch(97.5% 0.005 250);
+  --neutral-100: oklch(95%   0.007 250);
+  --neutral-150: oklch(92%   0.008 250);
+  --neutral-200: oklch(88%   0.009 250);
+  --neutral-300: oklch(80%   0.010 250);
+  --neutral-400: oklch(67%   0.011 250);
+  --neutral-500: oklch(55%   0.011 250);
+  --neutral-600: oklch(44%   0.012 250);
+  --neutral-700: oklch(34%   0.011 250);
+  --neutral-800: oklch(24%   0.010 250);
+  --neutral-900: oklch(16%   0.008 250);
+  --neutral-950: oklch(10%   0.006 250);
+
+  /* Semantic raw */
+  --success-500: var(--sage-500);
+  --success-100: var(--sage-100);
+  --warning-500: oklch(74% 0.13 75);
+  --warning-100: oklch(94% 0.05 80);
+  --danger-500:  oklch(60% 0.16 22);
+  --danger-100:  oklch(94% 0.04 22);
+  --info-500:    var(--indigo-500);
+  --info-100:    var(--indigo-100);
+
+  /* Surfaces */
+  --bg:          var(--neutral-50);
+  --bg-elevated: var(--neutral-0);
+  --bg-sunken:   var(--neutral-100);
+  --bg-hover:    var(--neutral-100);
+  --bg-active:   var(--neutral-150);
+  --bg-inverse:  var(--neutral-900);
+
+  /* Foreground */
+  --fg:          var(--neutral-900);
+  --fg-muted:    var(--neutral-600);
+  --fg-subtle:   var(--neutral-500);
+  --fg-faint:    var(--neutral-400);
+  --fg-inverse:  var(--neutral-0);
+  --fg-on-accent: var(--neutral-0);
+
+  /* Borders */
+  --border:         var(--neutral-200);
+  --border-strong:  var(--neutral-300);
+  --border-subtle:  var(--neutral-150);
+  --border-focus:   var(--sage-500);
+
+  /* Accent — indigo */
+  --accent:         var(--indigo-600);
+  --accent-hover:   var(--indigo-700);
+  --accent-pressed: var(--indigo-800);
+  --accent-soft:    var(--indigo-100);
+  --accent-soft-fg: var(--indigo-800);
+
+  /* Primary button */
+  --btn-primary-bg:         var(--neutral-900);
+  --btn-primary-bg-hover:   var(--neutral-800);
+  --btn-primary-bg-pressed: var(--neutral-700);
+  --btn-primary-fg:         var(--neutral-0);
+
+  /* Semantic feedback */
+  --success:      var(--success-500);
+  --success-soft: var(--success-100);
+  --success-fg:   var(--sage-800);
+  --warning:      var(--warning-500);
+  --warning-soft: var(--warning-100);
+  --warning-fg:   oklch(38% 0.10 75);
+  --danger:       var(--danger-500);
+  --danger-soft:  var(--danger-100);
+  --danger-fg:    oklch(38% 0.13 22);
+  --info:         var(--info-500);
+  --info-soft:    var(--info-100);
+  --info-fg:      var(--indigo-800);
+
+  /* Radius */
+  --radius-xs:   3px;
+  --radius-sm:   5px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 1px oklch(20% 0.01 250 / 0.04);
+  --shadow-sm: 0 1px 2px oklch(20% 0.01 250 / 0.05), 0 1px 3px oklch(20% 0.01 250 / 0.04);
+  --shadow-md: 0 2px 4px oklch(20% 0.01 250 / 0.05), 0 4px 12px oklch(20% 0.01 250 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(20% 0.01 250 / 0.06), 0 12px 32px oklch(20% 0.01 250 / 0.08);
+  --shadow-xl: 0 8px 16px oklch(20% 0.01 250 / 0.08), 0 24px 64px oklch(20% 0.01 250 / 0.12);
+  --shadow-focus: 0 0 0 3px oklch(56% 0.190 261 / 0.25);
+
+  /* Typography */
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Selection */
+  --selection-bg: oklch(87% 0.055 263 / 0.55);
+  --selection-fg: var(--neutral-900);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg:          var(--neutral-950);
+  --bg-elevated: var(--neutral-900);
+  --bg-sunken:   oklch(8% 0.006 250);
+  --bg-hover:    oklch(20% 0.009 250);
+  --bg-active:   oklch(24% 0.010 250);
+  --bg-inverse:  var(--neutral-50);
+
+  --fg:          var(--neutral-50);
+  --fg-muted:    var(--neutral-300);
+  --fg-subtle:   var(--neutral-400);
+  --fg-faint:    var(--neutral-500);
+  --fg-inverse:  var(--neutral-900);
+  --fg-on-accent: var(--neutral-950);
+
+  --border:         oklch(26% 0.009 250);
+  --border-strong:  oklch(34% 0.010 250);
+  --border-subtle:  oklch(20% 0.008 250);
+  --border-focus:   var(--indigo-400);
+
+  --accent:         var(--indigo-400);
+  --accent-hover:   var(--indigo-300);
+  --accent-pressed: var(--indigo-500);
+  --accent-soft:    oklch(30% 0.10 263);
+  --accent-soft-fg: var(--indigo-200);
+
+  --btn-primary-bg:         var(--neutral-50);
+  --btn-primary-bg-hover:   var(--neutral-200);
+  --btn-primary-bg-pressed: var(--neutral-300);
+  --btn-primary-fg:         var(--neutral-950);
+
+  --success:      var(--sage-400);
+  --success-soft: oklch(28% 0.05 174);
+  --success-fg:   var(--sage-200);
+  --warning:      oklch(78% 0.13 75);
+  --warning-soft: oklch(28% 0.06 75);
+  --warning-fg:   oklch(84% 0.13 75);
+  --danger:       oklch(67% 0.15 22);
+  --danger-soft:  oklch(28% 0.06 22);
+  --danger-fg:    oklch(82% 0.13 22);
+  --info:         var(--indigo-400);
+  --info-soft:    oklch(30% 0.10 263);
+  --info-fg:      var(--indigo-200);
+
+  --shadow-xs: 0 1px 1px oklch(0% 0 0 / 0.35);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.4), 0 1px 3px oklch(0% 0 0 / 0.3);
+  --shadow-md: 0 2px 4px oklch(0% 0 0 / 0.4), 0 6px 16px oklch(0% 0 0 / 0.45);
+  --shadow-focus: 0 0 0 3px oklch(66% 0.155 261 / 0.35);
+
+  --selection-bg: oklch(40% 0.155 263 / 0.45);
+  --selection-fg: var(--neutral-50);
+}
+
+/* Baseline */
+html {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body { margin: 0; }
+* { box-sizing: border-box; }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+/* Interactive states */
+.zt-btn-primary:hover  { background: var(--btn-primary-bg-hover) !important; }
+.zt-btn-secondary:hover { background: var(--bg-hover) !important; }
+.zt-btn-ghost:hover    { background: var(--bg-hover) !important; }
+.zt-btn-soft:hover     { background: color-mix(in oklch, var(--accent-soft) 80%, var(--bg-hover)) !important; }
+.zt-btn-danger:hover   { opacity: 0.88; }
+.zt-row:hover          { background: var(--bg-hover); border-radius: 8px; }
+.zt-chip:hover         { background: var(--bg-hover) !important; border-color: var(--border) !important; }
+.zt-card:hover         { box-shadow: var(--shadow-sm) !important; }
+.zt-iconbtn:hover      { background: var(--bg-hover) !important; color: var(--fg) !important; }
+.zt-link               { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; }
+.zt-link:hover         { text-decoration: underline; }
