@@ -8,8 +8,10 @@ import { Avatar } from '../ui/Avatar';
 export default function TopBar() {
   const matches = useMatches();
   const handle = matches.at(-1)?.handle as RouteHandle | undefined;
-  const crumb = handle?.crumb ?? 'Workspace';
-  const title = handle?.title ?? '';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const loaderData = (matches.at(-1) as any)?.data as { crumb?: string; title?: string } | undefined;
+  const crumb = handle?.crumb ?? loaderData?.crumb ?? 'Workspace';
+  const title = handle?.title ?? loaderData?.title ?? '';
 
   const { theme, toggleTheme, toggleSidebar } = useUIStore();
 
