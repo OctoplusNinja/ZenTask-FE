@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>ZenTask — Pricing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="design-system/colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--fg); font-family: var(--font-sans); }
+    body {
+      background:
+        radial-gradient(1100px 600px at 12% -20%, color-mix(in oklch, var(--accent-soft) 60%, transparent) 0%, transparent 60%),
+        radial-gradient(900px 500px at 92% 110%, color-mix(in oklch, var(--accent-soft) 40%, transparent) 0%, transparent 60%),
+        var(--bg);
+    }
+    a { color: inherit; }
+
+    /* ── Nav ─────────────────────────────────────── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px clamp(20px, 5vw, 64px);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .nav__brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); }
+    .nav__mark { color: var(--accent); display: inline-flex; }
+    .nav__name { font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+    .nav__links { display: flex; gap: 28px; align-items: center; }
+    .nav__link {
+      font-size: 13px; font-weight: 500; color: var(--fg-muted);
+      text-decoration: none; letter-spacing: -0.005em;
+      transition: color 120ms var(--ease-out);
+    }
+    .nav__link:hover { color: var(--accent); }
+    .nav__link[aria-current="page"] { color: var(--fg); }
+    .nav__cta {
+      font-size: 13px; font-weight: 600;
+      color: var(--btn-primary-fg);
+      text-decoration: none; padding: 7px 14px;
+      border-radius: 8px;
+      background: var(--btn-primary-bg);
+      display: inline-flex; align-items: center; gap: 6px;
+      letter-spacing: -0.005em;
+      transition: background 120ms var(--ease-out), transform 80ms var(--ease-out);
+    }
+    .nav__cta:hover { background: var(--btn-primary-bg-hover); }
+    .nav__cta:active { transform: scale(0.97); }
+
+    /* ── Layout ─────────────────────────────────── */
+    main {
+      max-width: 1200px; margin: 0 auto;
+      padding: clamp(24px, 5vw, 56px) clamp(20px, 5vw, 64px) 96px;
+    }
+    @media (max-width: 900px) {
+      .nav__links { display: none; }
+    }
+
+    /* ── Header ─────────────────────────────────── */
+    .header {
+      text-align: center;
+      max-width: 720px; margin: 0 auto 44px;
+    }
+    .header__eyebrow {
+      display: inline-block; padding: 4px 12px;
+      background: var(--accent-soft); color: var(--accent-soft-fg);
+      border-radius: 999px; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.02; letter-spacing: -0.035em;
+      font-weight: 700; margin: 0 0 16px;
+      text-wrap: balance;
+    }
+    h1 .accent {
+      font-family: var(--font-serif); font-style: italic;
+      font-weight: 400; font-size: 1.05em; color: var(--accent);
+    }
+    .header__lede {
+      font-size: 17px; line-height: 1.55; color: var(--fg-muted);
+      margin: 0; letter-spacing: -0.005em; text-wrap: pretty;
+    }
+
+    /* ── Billing toggle ─────────────────────────── */
+    .billing {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px;
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 999px;
+      margin: 28px auto 8px; position: relative;
+    }
+    .billing-wrap { text-align: center; margin-bottom: 48px; }
+    .billing__btn {
+      padding: 7px 16px; font-family: inherit; font-size: 13px; font-weight: 600;
+      letter-spacing: -0.005em;
+      border: 0; border-radius: 999px; background: transparent; color: var(--fg-muted);
+      cursor: pointer; position: relative; z-index: 1;
+      transition: color 200ms var(--ease-out);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .billing__btn[aria-pressed="true"] { color: var(--fg); }
+    .billing__pill {
+      position: absolute; top: 4px; bottom: 4px;
+      background: var(--bg); border-radius: 999px;
+      box-shadow: var(--shadow-xs);
+      transition: left 240ms var(--ease-out), width 240ms var(--ease-out);
+    }
+    .save-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+      padding: 2px 6px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent-soft-fg);
+      text-transform: uppercase;
+    }
+
+    /* ── Tier grid ──────────────────────────────── */
+    .tiers {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    @media (max-width: 960px) {
+      .tiers { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+    }
+
+    .tier {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 26px 26px;
+      display: flex; flex-direction: column;
+      position: relative;
+      transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .tier:hover { border-color: var(--border-strong); }
+    .tier--featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent) inset, var(--shadow-md);
+    }
+    .tier--featured:hover { border-color: var(--accent); }
+    .tier__badge {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      padding: 3px 10px;
+      background: var(--accent); color: var(--btn-primary-fg);
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tier__name {
+      font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+    .tier__pitch {
+      font-size: 13px; color: var(--fg-muted);
+      margin: 6px 0 22px; line-height: 1.5;
+      letter-spacing: -0.005em; min-height: 39px;
+      text-wrap: pretty;
+    }
+
+    .tier__price {
+      display: flex; align-items: baseline; gap: 6px;
+      margin-bottom: 4px;
+    }
+    .tier__amount {
+      font-size: 44px; font-weight: 700; letter-spacing: -0.04em;
+      line-height: 1; color: var(--fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .tier__currency {
+      font-size: 22px; font-weight: 600; color: var(--fg-muted);
+      align-self: flex-start; margin-top: 6px;
+    }
+    .tier__unit {
+      font-size: 13px; color: var(--fg-muted); letter-spacing: -0.005em;
+      line-height: 1.35;
+    }
+    .tier__billed {
+      font-size: 11.5px; color: var(--fg-subtle); letter-spacing: -0.005em;
+      margin-bottom: 22px; min-height: 16px;
+    }
+
+    .tier__cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 14px;
+      border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--fg);
+      font-family: inherit; font-size: 13.5px; font-weight: 600;
+      letter-spacing: -0.005em;
+      text-decoration: none; cursor: pointer;
+      transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out), transform 80ms var(--ease-out);
+      margin-bottom: 22px;
+    }
+    .tier__cta:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+    .tier__cta--primary {
+      background: var(--btn-primary-bg); color: var(--btn-primary-fg); border-color: transparent;
+    }
+    .tier__cta--primary:hover { background: var(--btn-primary-bg-hover); border-color: transparent; }
+    .tier__cta:active { transform: scale(0.985); }
+
+    .tier__features {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .tier__features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--fg); line-height: 1.5;
+      letter-spacing: -0.005em;
+    }
+    .tier__features svg { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+    .tier__features strong { font-weight: 600; }
+    .tier__divider {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--fg-subtle);
+      margin: 8px 0 2px;
+    }
+
+    /* ── Enterprise ─────────────────────────────── */
+    .enterprise {
+      margin-top: 40px;
+      display: grid; grid-template-columns: 1.4fr 1fr;
+      gap: 32px; align-items: center;
+      padding: 32px 36px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    @media (max-width: 760px) {
+      .enterprise { grid-template-columns: 1fr; padding: 28px; }
+    }
+    .enterprise__name {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--fg-subtle);
+      margin-bottom: 8px;
+    }
+    .enterprise h3 {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.025em;
+      margin: 0 0 8px; text-wrap: balance;
+    }
+    .enterprise p {
+      font-size: 14px; color: var(--fg-muted); margin: 0;
+      line-height: 1.5; letter-spacing: -0.005em;
+      text-wrap: pretty;
+    }
+    .enterprise__features {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px;
+      list-style: none; padding: 0; margin: 0;
+    }
+    .enterprise__features li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--fg);
+      letter-spacing: -0.005em;
+    }
+    .enterprise__features svg { color: var(--accent); flex-shrink: 0; }
+    .enterprise__actions {
+      display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;
+    }
+
+    /* ── Compare / footnote ─────────────────────── */
+    .footnote {
+      text-align: center; margin-top: 56px;
+      font-size: 13px; color: var(--fg-muted);
+      letter-spacing: -0.005em;
+    }
+    .footnote a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .footnote a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Footer ─────────────────────────────────── */
+    footer {
+      max-width: 1280px; margin: 0 auto;
+      padding: 20px clamp(20px, 5vw, 64px) 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+      font-size: 12px; color: var(--fg-subtle);
+    }
+    footer a { color: var(--fg-muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    footer ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__brand" href="ZenTask Landing.html">
+      <span class="nav__mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+          <rect x="8" y="8" width="48" height="13" rx="6.5" fill="currentColor"/>
+          <rect x="2" y="25.5" width="60" height="13" rx="6.5" fill="currentColor" transform="rotate(-40 32 32)"/>
+          <rect x="8" y="43" width="48" height="13" rx="6.5" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="nav__name">ZenTask</span>
+    </a>
+    <div class="nav__links">
+      <a class="nav__link" href="#">Product</a>
+      <a class="nav__link" href="ZenTask Pricing.html" aria-current="page">Pricing</a>
+      <a class="nav__link" href="#">Customers</a>
+      <a class="nav__link" href="#">Changelog</a>
+    </div>
+    <a class="nav__cta" href="ZenTask Sign Up.html?plan=free">
+      Get started
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+  <main>
+    <header class="header">
+      <span class="header__eyebrow">Pricing</span>
+      <h1>Pay for the <span class="accent">people</span>, not the projects.</h1>
+      <p class="header__lede">Per-member pricing. Unlimited workspaces on every paid plan. Cancel anytime.</p>
+
+      <div class="billing-wrap">
+        <div class="billing" role="tablist" aria-label="Billing period">
+          <span class="billing__pill" id="billing-pill"></span>
+          <button class="billing__btn" type="button" aria-pressed="true" data-period="monthly">Monthly</button>
+          <button class="billing__btn" type="button" aria-pressed="false" data-period="annual">
+            Annual
+            <span class="save-tag">−20%</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="tiers" aria-label="Plans">
+      <!-- ───── Free ───── -->
+      <div class="tier">
+        <div class="tier__name">Free</div>
+        <p class="tier__pitch">For solo planners and small teams getting started.</p>
+
+        <div class="tier__price">
+          <span class="tier__amount">$0</span>
+          <span class="tier__unit">forever</span>
+        </div>
+        <div class="tier__billed">No credit card required.</div>
+
+        <a class="tier__cta" href="ZenTask Sign Up.html?plan=free">Get started</a>
+
+        <ul class="tier__features">
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span><strong>1</strong> workspace</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Up to <strong>10</strong> members</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Unlimited boards &amp; tasks</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Kanban, list &amp; calendar views</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>14 days of activity history</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ───── Starter (featured) ───── -->
+      <div class="tier tier--featured">
+        <span class="tier__badge">Most popular</span>
+        <div class="tier__name">Starter</div>
+        <p class="tier__pitch">For growing teams who need real collaboration.</p>
+
+        <div class="tier__price">
+          <span class="tier__currency">$</span>
+          <span class="tier__amount" data-price-monthly="8" data-price-annual="6">8</span>
+          <span class="tier__unit">per member<br>/ month</span>
+        </div>
+        <div class="tier__billed" id="starter-billed">Billed monthly. Switch anytime.</div>
+
+        <a class="tier__cta tier__cta--primary" href="ZenTask Sign Up.html?plan=starter">
+          Start with Starter
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+
+        <div class="tier__divider">Everything in Free, plus</div>
+        <ul class="tier__features">
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span><strong>Unlimited</strong> workspaces</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Up to <strong>50</strong> members per workspace</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Custom workflows &amp; automations</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Weekly auto-summaries (beta)</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Unlimited activity history</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Priority email support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ───── Business ───── -->
+      <div class="tier">
+        <div class="tier__name">Business</div>
+        <p class="tier__pitch">For organizations that need control and reporting.</p>
+
+        <div class="tier__price">
+          <span class="tier__currency">$</span>
+          <span class="tier__amount" data-price-monthly="14" data-price-annual="11">14</span>
+          <span class="tier__unit">per member<br>/ month</span>
+        </div>
+        <div class="tier__billed" id="business-billed">Billed monthly. Switch anytime.</div>
+
+        <a class="tier__cta" href="ZenTask Sign Up.html?plan=business">Start with Business</a>
+
+        <div class="tier__divider">Everything in Starter, plus</div>
+        <ul class="tier__features">
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span><strong>Unlimited</strong> members</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>SAML SSO &amp; SCIM provisioning</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Audit log &amp; admin roles</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Cross-workspace reporting</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>Guest access for clients</span>
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>99.9% uptime SLA</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ───── Enterprise ───── -->
+    <section class="enterprise" aria-label="Enterprise">
+      <div>
+        <div class="enterprise__name">Enterprise</div>
+        <h3>For larger teams with custom needs.</h3>
+        <p>Volume pricing, dedicated support, custom contracts, and security review. Built for companies that take procurement seriously.</p>
+        <div class="enterprise__actions">
+          <a class="tier__cta tier__cta--primary" style="margin-bottom: 0;" href="#">Talk to sales</a>
+          <a class="tier__cta" style="margin-bottom: 0;" href="#">Download security pack</a>
+        </div>
+      </div>
+      <ul class="enterprise__features">
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Custom data residency
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Dedicated CSM
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Custom MSA &amp; DPA
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          SOC 2 Type II &amp; HIPAA
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Annual invoicing
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Onboarding &amp; training
+        </li>
+      </ul>
+    </section>
+
+    <p class="footnote">
+      Prices in USD. <a href="#">See full feature comparison</a> · <a href="#">Read pricing FAQs</a>
+    </p>
+  </main>
+
+  <footer>
+    <span>© 2026 ZenTask, Inc.</span>
+    <ul>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Security</a></li>
+      <li><a href="#">Status</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // ── Billing toggle ─────────────────────────────
+    const billingBtns = document.querySelectorAll('.billing__btn');
+    const pill = document.getElementById('billing-pill');
+    const amounts = document.querySelectorAll('.tier__amount[data-price-monthly]');
+    const starterBilled = document.getElementById('starter-billed');
+    const businessBilled = document.getElementById('business-billed');
+
+    function positionPill() {
+      const active = document.querySelector('.billing__btn[aria-pressed="true"]');
+      if (!active) return;
+      pill.style.left = active.offsetLeft + 'px';
+      pill.style.width = active.offsetWidth + 'px';
+    }
+
+    function setPeriod(period) {
+      billingBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.period === period ? 'true' : 'false'));
+      amounts.forEach(el => {
+        el.textContent = period === 'annual' ? el.dataset.priceAnnual : el.dataset.priceMonthly;
+      });
+      const note = period === 'annual'
+        ? 'Billed annually. Save 20%.'
+        : 'Billed monthly. Switch anytime.';
+      starterBilled.textContent = note;
+      businessBilled.textContent = note;
+      positionPill();
+    }
+
+    billingBtns.forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.period)));
+    window.addEventListener('load', positionPill);
+    window.addEventListener('resize', positionPill);
+    // initial position
+    requestAnimationFrame(positionPill);
+  </script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>ZenTask — Start free</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="design-system/colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--fg); font-family: var(--font-sans); }
+    body {
+      background:
+        radial-gradient(1100px 600px at 12% -20%, color-mix(in oklch, var(--accent-soft) 60%, transparent) 0%, transparent 60%),
+        radial-gradient(900px 500px at 92% 110%, color-mix(in oklch, var(--accent-soft) 40%, transparent) 0%, transparent 60%),
+        var(--bg);
+    }
+    a { color: inherit; }
+
+    /* ── Nav (same as landing) ─────────────────────── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px clamp(20px, 5vw, 64px);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .nav__brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); }
+    .nav__mark { color: var(--accent); display: inline-flex; }
+    .nav__name { font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+    .nav__signin {
+      font-size: 13px; font-weight: 500; color: var(--fg-muted);
+      text-decoration: none; letter-spacing: -0.005em;
+      transition: color 120ms var(--ease-out);
+    }
+    .nav__signin:hover { color: var(--accent); }
+    .nav__signin strong { color: var(--fg); font-weight: 600; margin-left: 4px; }
+
+    /* ── Layout ────────────────────────────────────── */
+    main {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: clamp(16px, 4vw, 32px) 20px 64px;
+    }
+
+    /* ── Step indicator ────────────────────────────── */
+    .steps {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .step {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12.5px; font-weight: 600; letter-spacing: -0.005em;
+      color: var(--fg-subtle);
+      transition: color 200ms var(--ease-out);
+    }
+    .step__dot {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      background: var(--bg-elevated); color: var(--fg-subtle);
+      border: 1px solid var(--border);
+      transition: all 200ms var(--ease-out);
+    }
+    .step--active { color: var(--fg); }
+    .step--active .step__dot {
+      background: var(--accent); color: var(--btn-primary-fg);
+      border-color: transparent;
+    }
+    .step--done { color: var(--fg-muted); }
+    .step--done .step__dot {
+      background: var(--accent-soft); color: var(--accent); border-color: transparent;
+    }
+    .step__line {
+      width: 28px; height: 1px; background: var(--border);
+    }
+
+    /* ── Card ──────────────────────────────────────── */
+    .card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 36px 36px 28px;
+    }
+    @media (max-width: 560px) {
+      .card { padding: 28px 22px 22px; border-radius: 14px; }
+    }
+
+    .card__head {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px; margin-bottom: 24px; text-align: center;
+    }
+    .card__mark {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .card__title { font-size: 22px; font-weight: 700; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+    .card__sub { font-size: 13.5px; color: var(--fg-muted); margin: 0; letter-spacing: -0.005em; max-width: 360px; text-wrap: pretty; }
+
+    /* ── Forms ─────────────────────────────────────── */
+    .oauth { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .oauth-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg);
+      color: var(--fg); font-family: inherit; font-size: 13.5px; font-weight: 600;
+      cursor: pointer; letter-spacing: -0.005em;
+      transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);
+    }
+    .oauth-btn:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 6px 0 18px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--fg-subtle);
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border-subtle);
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field--row { flex-direction: row; gap: 10px; }
+    .field--row > div { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 12.5px; font-weight: 600; color: var(--fg); letter-spacing: -0.005em; }
+    .hint { font-size: 11.5px; color: var(--fg-subtle); letter-spacing: -0.005em; margin-top: 2px; }
+    input[type="email"], input[type="password"], input[type="text"] {
+      padding: 10px 12px; font-family: inherit; font-size: 14px;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg); color: var(--fg);
+      transition: border-color 120ms var(--ease-out), box-shadow 120ms var(--ease-out);
+      letter-spacing: -0.005em; width: 100%;
+    }
+    input::placeholder { color: var(--fg-subtle); }
+    input:hover { border-color: var(--border-strong); }
+    input:focus {
+      outline: none; border-color: var(--border-focus);
+      box-shadow: var(--shadow-focus);
+    }
+
+    /* URL slug input with prefix */
+    .slug {
+      display: flex; align-items: stretch;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg);
+      transition: border-color 120ms var(--ease-out), box-shadow 120ms var(--ease-out);
+      overflow: hidden;
+    }
+    .slug:hover { border-color: var(--border-strong); }
+    .slug:focus-within { border-color: var(--border-focus); box-shadow: var(--shadow-focus); }
+    .slug__prefix {
+      display: inline-flex; align-items: center;
+      padding: 0 12px; font-size: 13.5px; color: var(--fg-subtle);
+      background: var(--bg-sunken); border-right: 1px solid var(--border-subtle);
+      font-family: var(--font-mono); letter-spacing: -0.005em;
+    }
+    .slug input {
+      flex: 1; border: 0; border-radius: 0; background: transparent;
+      font-family: var(--font-mono); font-size: 13.5px;
+    }
+    .slug input:focus { box-shadow: none; }
+
+    .terms {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; color: var(--fg-muted);
+      margin: 6px 0 18px; line-height: 1.45;
+      cursor: pointer; user-select: none;
+    }
+    .terms input { width: 14px; height: 14px; accent-color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+    .terms a { color: var(--accent); text-decoration: none; }
+    .terms a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Template picker ───────────────────────────── */
+    .templates {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin: 6px 0 20px;
+    }
+    .tpl {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--bg); cursor: pointer;
+      text-align: left;
+      transition: border-color 120ms var(--ease-out), background 120ms var(--ease-out);
+      font-family: inherit; color: var(--fg);
+    }
+    .tpl:hover { border-color: var(--border-strong); background: var(--bg-hover); }
+    .tpl[aria-pressed="true"] {
+      border-color: var(--accent); background: var(--accent-soft);
+      box-shadow: 0 0 0 1px var(--accent) inset;
+    }
+    .tpl__icon {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--bg-elevated); color: var(--accent);
+      flex-shrink: 0;
+    }
+    .tpl[aria-pressed="true"] .tpl__icon { background: white; }
+    .tpl__name { font-size: 13px; font-weight: 600; line-height: 1.25; margin-bottom: 2px; letter-spacing: -0.005em; }
+    .tpl__sub { font-size: 11.5px; color: var(--fg-subtle); line-height: 1.35; }
+
+    /* ── Buttons ───────────────────────────────────── */
+    .actions { display: flex; gap: 8px; margin-top: 4px; }
+    .btn {
+      flex: 1; padding: 11px 14px;
+      border: 1px solid transparent; border-radius: 10px;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      letter-spacing: -0.005em; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 120ms var(--ease-out), transform 80ms var(--ease-out), border-color 120ms var(--ease-out);
+    }
+    .btn--primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+    .btn--primary:hover { background: var(--btn-primary-bg-hover); }
+    .btn--primary:active { transform: scale(0.985); background: var(--btn-primary-bg-pressed); }
+    .btn--ghost { background: transparent; color: var(--fg-muted); border-color: var(--border); flex: 0 0 auto; padding: 11px 16px; }
+    .btn--ghost:hover { background: var(--bg-hover); color: var(--fg); border-color: var(--border-strong); }
+
+    .card__foot {
+      margin-top: 18px; padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 12.5px; color: var(--fg-muted); text-align: center;
+      letter-spacing: -0.005em;
+    }
+    .card__foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .card__foot a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Step visibility + transition ──────────────── */
+    .panel { display: none; animation: fadeIn 220ms var(--ease-out); }
+    .panel--active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    /* ── Footer ────────────────────────────────────── */
+    footer {
+      max-width: 1280px; margin: 0 auto;
+      padding: 20px clamp(20px, 5vw, 64px) 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+      font-size: 12px; color: var(--fg-subtle);
+    }
+    footer a { color: var(--fg-muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    footer ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__brand" href="ZenTask Landing.html">
+      <span class="nav__mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+          <rect x="8" y="8" width="48" height="13" rx="6.5" fill="currentColor"/>
+          <rect x="2" y="25.5" width="60" height="13" rx="6.5" fill="currentColor" transform="rotate(-40 32 32)"/>
+          <rect x="8" y="43" width="48" height="13" rx="6.5" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="nav__name">ZenTask</span>
+    </a>
+    <a class="nav__signin" href="ZenTask Landing.html">Already have an account?<strong>Sign in</strong></a>
+  </nav>
+
+  <main>
+    <!-- Step indicator -->
+    <div class="steps" id="steps">
+      <div class="step step--active" data-step="1">
+        <span class="step__dot">1</span>
+        <span>Account</span>
+      </div>
+      <span class="step__line"></span>
+      <div class="step" data-step="2">
+        <span class="step__dot">2</span>
+        <span>Workspace</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- Step 1 — Account                              -->
+    <!-- ════════════════════════════════════════════ -->
+    <form class="card panel panel--active" id="step-1" novalidate>
+      <div class="card__head">
+        <span class="card__mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+            <rect x="8" y="8" width="48" height="13" rx="6.5" fill="currentColor"/>
+            <rect x="2" y="25.5" width="60" height="13" rx="6.5" fill="currentColor" transform="rotate(-40 32 32)"/>
+            <rect x="8" y="43" width="48" height="13" rx="6.5" fill="currentColor"/>
+          </svg>
+        </span>
+        <h2 class="card__title">Create your account</h2>
+        <p class="card__sub" id="signup-sub">Start on the Free plan. Upgrade your workspace anytime.</p>
+      </div>
+
+      <div class="oauth">
+        <button class="oauth-btn" type="button" data-oauth="google">
+          <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+            <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+            <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2c-.4.4 6.6-4.8 6.6-14.8 0-1.3-.1-2.4-.4-3.5z"/>
+          </svg>
+          Sign up with Google
+        </button>
+        <button class="oauth-btn" type="button" data-oauth="sso">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Sign up with SSO
+        </button>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" placeholder="Alex Rivera" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8">
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="terms" required>
+        <span>I agree to ZenTask's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+      </label>
+
+      <div class="actions">
+        <button class="btn btn--primary" type="submit">
+          Continue
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="card__foot">
+        Already have an account? <a href="ZenTask Landing.html">Sign in</a>
+      </div>
+    </form>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- Step 2 — Workspace setup                      -->
+    <!-- ════════════════════════════════════════════ -->
+    <form class="card panel" id="step-2" novalidate>
+      <div class="card__head">
+        <span class="card__mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <path d="M9 3v18"/>
+            <path d="M3 9h6"/>
+          </svg>
+        </span>
+        <h2 class="card__title">Set up your workspace</h2>
+        <p class="card__sub">A workspace is where your team lives. You can rename it or invite people anytime.</p>
+      </div>
+
+      <div class="field">
+        <label for="ws-name">Workspace name</label>
+        <input id="ws-name" name="ws-name" type="text" placeholder="Acme Co." autocomplete="organization" required>
+      </div>
+
+      <div class="field">
+        <label for="ws-slug">Workspace URL</label>
+        <div class="slug">
+          <span class="slug__prefix">zentask.app/</span>
+          <input id="ws-slug" name="ws-slug" type="text" placeholder="acme" pattern="[a-z0-9-]+" required>
+        </div>
+        <span class="hint">Lowercase letters, numbers, and dashes only.</span>
+      </div>
+
+      <div class="field" style="margin-bottom: 8px;">
+        <label>Starter template</label>
+        <span class="hint" style="margin-top: 0;">We'll create your first board with a few example tasks. You can delete them.</span>
+      </div>
+
+      <div class="templates" id="templates" role="radiogroup" aria-label="Starter template">
+        <button type="button" class="tpl" aria-pressed="true" data-tpl="roadmap">
+          <span class="tpl__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+          </span>
+          <span>
+            <div class="tpl__name">Roadmap</div>
+            <div class="tpl__sub">Quarterly themes, in progress, shipped.</div>
+          </span>
+        </button>
+        <button type="button" class="tpl" aria-pressed="false" data-tpl="sprint">
+          <span class="tpl__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <span>
+            <div class="tpl__name">Sprint</div>
+            <div class="tpl__sub">Backlog, this week, doing, done.</div>
+          </span>
+        </button>
+        <button type="button" class="tpl" aria-pressed="false" data-tpl="marketing">
+          <span class="tpl__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </span>
+          <span>
+            <div class="tpl__name">Marketing calendar</div>
+            <div class="tpl__sub">Ideas, drafting, scheduled, live.</div>
+          </span>
+        </button>
+        <button type="button" class="tpl" aria-pressed="false" data-tpl="blank">
+          <span class="tpl__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          </span>
+          <span>
+            <div class="tpl__name">Blank</div>
+            <div class="tpl__sub">An empty board. Roll your own.</div>
+          </span>
+        </button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--ghost" type="button" id="back-to-1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn--primary" type="submit">
+          Create workspace
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    <span>© 2026 ZenTask, Inc.</span>
+    <ul>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Security</a></li>
+      <li><a href="#">Status</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // ── Pre-select plan from ?plan=… query ──────────
+    const planCopy = {
+      free:     'Start on the Free plan. Upgrade your workspace anytime.',
+      starter:  'Starting on the Starter plan — $8 per member / month.',
+      business: 'Starting on the Business plan — $14 per member / month.',
+    };
+    const planFromUrl = new URLSearchParams(window.location.search).get('plan');
+    if (planFromUrl && planCopy[planFromUrl]) {
+      document.getElementById('signup-sub').textContent = planCopy[planFromUrl];
+    }
+
+    // ── Step navigation ──────────────────────────────
+    const panels = {
+      1: document.getElementById('step-1'),
+      2: document.getElementById('step-2'),
+    };
+    const stepEls = document.querySelectorAll('#steps .step');
+
+    function goTo(n) {
+      Object.entries(panels).forEach(([k, el]) => {
+        el.classList.toggle('panel--active', Number(k) === n);
+      });
+      stepEls.forEach(el => {
+        const i = Number(el.dataset.step);
+        el.classList.toggle('step--active', i === n);
+        el.classList.toggle('step--done', i < n);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Step 1 → Step 2
+    panels[1].addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Pre-fill workspace name + slug from email domain if blank
+      const email = document.getElementById('email').value.trim();
+      const wsName = document.getElementById('ws-name');
+      const wsSlug = document.getElementById('ws-slug');
+      if (email && !wsName.value) {
+        const domain = email.split('@')[1] || '';
+        const base = domain.split('.')[0] || '';
+        if (base) {
+          wsName.value = base.charAt(0).toUpperCase() + base.slice(1);
+          wsSlug.value = base.toLowerCase().replace(/[^a-z0-9-]/g, '');
+        }
+      }
+      goTo(2);
+    });
+
+    // OAuth shortcut → skip to step 2
+    document.querySelectorAll('[data-oauth]').forEach(btn => {
+      btn.addEventListener('click', () => goTo(2));
+    });
+
+    // Back
+    document.getElementById('back-to-1').addEventListener('click', () => goTo(1));
+
+    // Step 2 → dashboard
+    panels[2].addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = 'ZenTask Dashboard.html';
+    });
+
+    // ── Slug auto-derive from name ───────────────────
+    const wsName = document.getElementById('ws-name');
+    const wsSlug = document.getElementById('ws-slug');
+    let slugTouched = false;
+    wsSlug.addEventListener('input', () => { slugTouched = true; });
+    wsName.addEventListener('input', () => {
+      if (slugTouched) return;
+      wsSlug.value = wsName.value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    });
+
+    // ── Template picker ─────────────────────────────
+    document.querySelectorAll('#templates .tpl').forEach(tpl => {
+      tpl.addEventListener('click', () => {
+        document.querySelectorAll('#templates .tpl').forEach(t => t.setAttribute('aria-pressed', 'false'));
+        tpl.setAttribute('aria-pressed', 'true');
+      });
+    });
+  </script>
+</body>
+</html>

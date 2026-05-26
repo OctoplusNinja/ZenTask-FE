@@ -12,7 +12,7 @@ import { PriorityIcon } from '../components/ui/Tag';
 export default function Dashboard() {
   const navigate = useNavigate();
   const onJumpToKanban = () => navigate('/board');
-  const onOpenTask = (_id: string) => navigate('/board');
+  const onOpenTask = () => navigate('/board');
   const onNewTask = () => {};
 
   const allTasks = TASKS.q2;

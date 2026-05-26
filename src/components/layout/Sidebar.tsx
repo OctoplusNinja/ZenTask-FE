@@ -6,7 +6,7 @@ import { BOARDS, SPACES } from '../../data/data';
 import { PANELS, FOOTER_PANELS } from '../../config/navigation';
 import type { NavPanel } from '../../config/navigation';
 import { useUIStore } from '../../store/ui';
-import { useWorkspace } from '../../hooks/useWorkspace';
+import { WorkspaceSwitcher } from './WorkspaceSwitcher';
 import logo from '../../assets/ZenTask Logo Transparent.png';
 
 export default function Sidebar() {
@@ -14,7 +14,6 @@ export default function Sidebar() {
   const location = useLocation();
   const boardMatch = useMatch('/board/:boardId');
   const { collapsed } = useUIStore();
-  const workspace = useWorkspace();
 
   const isActive = (p: NavPanel) =>
     p.matchPrefix
@@ -33,7 +32,7 @@ export default function Sidebar() {
     >
       {/* Brand */}
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/dashboard')}
         className={`flex items-center h-[52px] pt-[14px] pb-2 border-0 bg-transparent cursor-pointer [font-family:inherit] ${collapsed ? 'justify-center px-2 w-full' : 'gap-[10px] px-4'}`}
       >
         <img src={logo} alt="ZenTask" width={collapsed ? 28 : 32} height={collapsed ? 28 : 32} className="shrink-0" />
@@ -41,25 +40,7 @@ export default function Sidebar() {
       </button>
 
       {/* Workspace switcher */}
-      {!collapsed && (
-        <div className="pt-1 px-2 pb-2">
-          <button
-            className="w-full flex items-center gap-2 py-[7px] px-[10px] rounded-[8px] cursor-pointer text-left [font-family:inherit]"
-            style={{
-              border: '1px solid var(--border)',
-              background: 'var(--bg-elevated)',
-              color: 'var(--fg)',
-            }}
-          >
-            <span
-              className="w-[22px] h-[22px] rounded-[6px] inline-flex items-center justify-center text-[11px] font-bold shrink-0"
-              style={{ background: workspace?.avatarBg ?? 'var(--sage-200)', color: workspace?.avatarFg ?? 'var(--sage-800)' }}
-            >{workspace?.initials ?? '…'}</span>
-            <span className="flex-1 text-[12.5px] font-semibold">{workspace?.name ?? '…'}</span>
-            <Icon name="chevdown" size={14} style={{ color: 'var(--fg-subtle)' }} />
-          </button>
-        </div>
-      )}
+      {!collapsed && <WorkspaceSwitcher />}
 
       {/* Primary nav */}
       <nav className="py-1 px-2">
@@ -182,14 +163,11 @@ function NavItem({ icon, label, active, badge, kbd, onClick, indent, collapsed }
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-[10px] w-full rounded-[8px] border-0 cursor-pointer [font-family:inherit] text-[13px] text-left"
+      className={`flex items-center gap-[10px] w-full rounded-[8px] border-0 cursor-pointer [font-family:inherit] text-[13px] text-left ${active ? 'font-semibold' : 'font-medium'} ${collapsed ? 'p-2 justify-center' : `pt-[7px] pr-[10px] pb-[7px] ${indent ? 'pl-[22px]' : 'pl-[10px]'} justify-start`}`}
       style={{
-        padding: collapsed ? '8px' : `7px 10px 7px ${indent ? 22 : 10}px`,
         background: active ? 'var(--bg-active)' : 'transparent',
         color: active ? 'var(--fg)' : 'var(--fg-muted)',
-        fontWeight: active ? 600 : 500,
         transition: 'background 120ms var(--ease-out)',
-        justifyContent: collapsed ? 'center' : 'flex-start',
       }}
     >
       <Icon name={icon} size={16} style={{ color: active ? 'var(--accent)' : 'inherit' }} />
