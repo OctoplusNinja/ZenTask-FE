@@ -1,16 +1,18 @@
+import { useMatches } from 'react-router';
+import type { RouteHandle } from '../../types';
+import { useUIStore } from '../../store/ui';
 import { Icon } from '../ui/Icon';
 import { IconButton } from '../ui/Button';
 import { Avatar } from '../ui/Avatar';
 
-interface TopBarProps {
-  crumb: string;
-  title: string;
-  theme: 'light' | 'dark';
-  onToggleTheme: () => void;
-  onToggleSidebar: () => void;
-}
+export default function TopBar() {
+  const matches = useMatches();
+  const handle = matches.at(-1)?.handle as RouteHandle | undefined;
+  const crumb = handle?.crumb ?? 'Workspace';
+  const title = handle?.title ?? '';
 
-export default function TopBar({ crumb, title, theme, onToggleTheme, onToggleSidebar }: TopBarProps) {
+  const { theme, toggleTheme, toggleSidebar } = useUIStore();
+
   return (
     <header style={{
       height: 52, flexShrink: 0,
@@ -22,7 +24,7 @@ export default function TopBar({ crumb, title, theme, onToggleTheme, onToggleSid
       WebkitBackdropFilter: 'blur(12px)',
       position: 'sticky', top: 0, zIndex: 10,
     }}>
-      <IconButton icon="menu" label="Toggle sidebar" onClick={onToggleSidebar} />
+      <IconButton icon="menu" label="Toggle sidebar" onClick={toggleSidebar} />
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
         <span style={{ fontSize: 12, color: 'var(--fg-muted)' }}>{crumb}</span>
         <Icon name="chevright" size={12} style={{ color: 'var(--fg-faint)' }} />
@@ -46,7 +48,7 @@ export default function TopBar({ crumb, title, theme, onToggleTheme, onToggleSid
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--fg-subtle)' }}>⌘K</span>
         </button>
         <span style={{ width: 1, height: 20, background: 'var(--border-subtle)', margin: '0 2px' }} />
-        <IconButton icon={theme === 'dark' ? 'sun' : 'moon'} label="Toggle theme" onClick={onToggleTheme} />
+        <IconButton icon={theme === 'dark' ? 'sun' : 'moon'} label="Toggle theme" onClick={toggleTheme} />
         <IconButton icon="bell" label="Notifications" />
         <span style={{ marginLeft: 4 }}><Avatar initials="JL" size={28} presence="on" /></span>
       </div>

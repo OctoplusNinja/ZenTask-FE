@@ -7,3 +7,8 @@ export type PanelId =
   | 'reports'
   | 'members'
   | 'settings';
+
+export interface RouteHandle {
+  crumb: string;
+  title: string;
+}

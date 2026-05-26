@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { ReactNode, CSSProperties } from 'react';
+import { useNavigate } from 'react-router';
 import { TASKS, COLUMNS, PEOPLE } from '../data/data';
 import type { Task, ColId } from '../data/data';
 import { Icon } from '../components/ui/Icon';
@@ -8,13 +9,12 @@ import { Avatar, AvatarStack } from '../components/ui/Avatar';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { PriorityIcon } from '../components/ui/Tag';
 
-interface DashboardProps {
-  onJumpToKanban: () => void;
-  onOpenTask: (id: string) => void;
-  onNewTask: () => void;
-}
+export default function Dashboard() {
+  const navigate = useNavigate();
+  const onJumpToKanban = () => navigate('/board');
+  const onOpenTask = (_id: string) => navigate('/board');
+  const onNewTask = () => {};
 
-export default function Dashboard({ onJumpToKanban, onOpenTask, onNewTask }: DashboardProps) {
   const allTasks = TASKS.q2;
   const today = allTasks.filter(t => t.due === 'Today' || t.due === 'May 22');
   const myTasks = allTasks.filter(t => t.assignees.includes('jl'));

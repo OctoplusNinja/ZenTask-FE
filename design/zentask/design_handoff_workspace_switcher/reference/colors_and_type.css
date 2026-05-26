@@ -1,0 +1,485 @@
+/* =========================================================================
+   ZenTask — Colors & Type
+   Single source of truth for color tokens, typography, spacing, radius,
+   shadow. Light theme is default; dark theme via [data-theme="dark"] or
+   the .dark class on <html> / any ancestor.
+   ========================================================================= */
+
+/* --- Fonts ------------------------------------------------------------- */
+/* Manrope: geometric sans, primary UI + display.
+   Instrument Serif: editorial serif accent for marketing display.
+   JetBrains Mono: code, ticket IDs, keyboard hints. */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* =========================================================================
+   COLOR — Light (default)
+   Palette intent:
+     • Brand "indigo" — confident deep blue. Used for focus rings, links,
+       the logo, in-progress status, and as the only saturated hue.
+     • Primary buttons use NEAR-BLACK in light mode (and near-white in dark)
+       — confident, restrained, lets the brand color carry meaning rather
+       than action.
+     • Sage stays in the palette as the success/done hue and for the
+       "growth" tag — a quiet auxiliary green.
+     • Neutrals are warm gray with a faint blue tint to harmonize with the
+       indigo brand.
+   ========================================================================= */
+:root {
+  /* Brand — indigo */
+  --indigo-50:  oklch(97.5% 0.012 265);
+  --indigo-100: oklch(94%   0.030 265);
+  --indigo-200: oklch(87%   0.055 263);
+  --indigo-300: oklch(78%   0.095 262);
+  --indigo-400: oklch(66%   0.155 261);
+  --indigo-500: oklch(56%   0.190 261);   /* brand */
+  --indigo-600: oklch(48%   0.180 262);
+  --indigo-700: oklch(40%   0.155 263);
+  --indigo-800: oklch(32%   0.115 264);
+  --indigo-900: oklch(24%   0.075 265);
+
+  /* Auxiliary — sage (success, done state, growth tag only) */
+  --sage-50:  oklch(97.5% 0.012 168);
+  --sage-100: oklch(94%   0.025 168);
+  --sage-200: oklch(88%   0.045 168);
+  --sage-300: oklch(78%   0.065 168);
+  --sage-400: oklch(68%   0.085 170);
+  --sage-500: oklch(58%   0.095 172);
+  --sage-600: oklch(49%   0.090 174);
+  --sage-700: oklch(40%   0.075 176);
+  --sage-800: oklch(32%   0.055 178);
+  --sage-900: oklch(24%   0.035 180);
+
+  /* Neutral — warm with faint cool tint to harmonize with indigo */
+  --neutral-0:   oklch(100%  0     0);
+  --neutral-25:  oklch(99%   0.003 250);
+  --neutral-50:  oklch(97.5% 0.005 250);
+  --neutral-100: oklch(95%   0.007 250);
+  --neutral-150: oklch(92%   0.008 250);
+  --neutral-200: oklch(88%   0.009 250);
+  --neutral-300: oklch(80%   0.010 250);
+  --neutral-400: oklch(67%   0.011 250);
+  --neutral-500: oklch(55%   0.011 250);
+  --neutral-600: oklch(44%   0.012 250);
+  --neutral-700: oklch(34%   0.011 250);
+  --neutral-800: oklch(24%   0.010 250);
+  --neutral-900: oklch(16%   0.008 250);
+  --neutral-950: oklch(10%   0.006 250);
+
+  /* Semantic raw */
+  --success-500: var(--sage-500);
+  --success-100: var(--sage-100);
+  --warning-500: oklch(74% 0.13 75);
+  --warning-100: oklch(94% 0.05 80);
+  --danger-500:  oklch(60% 0.16 22);
+  --danger-100:  oklch(94% 0.04 22);
+  --info-500:    var(--indigo-500);
+  --info-100:    var(--indigo-100);
+
+  /* ----------------- SEMANTIC TOKENS (light) ----------------- */
+  /* Surfaces */
+  --bg:           var(--neutral-50);      /* app canvas */
+  --bg-elevated: var(--neutral-0);        /* cards, menus, modals */
+  --bg-sunken:   var(--neutral-100);      /* board column wells */
+  --bg-hover:    var(--neutral-100);
+  --bg-active:   var(--neutral-150);
+  --bg-inverse:  var(--neutral-900);
+
+  /* Foreground (text + icon) */
+  --fg:          var(--neutral-900);      /* primary text */
+  --fg-muted:    var(--neutral-600);      /* secondary text */
+  --fg-subtle:   var(--neutral-500);      /* tertiary, captions */
+  --fg-faint:    var(--neutral-400);      /* placeholders */
+  --fg-inverse:  var(--neutral-0);
+  --fg-on-accent: var(--neutral-0);
+
+  /* Borders */
+  --border:         var(--neutral-200);
+  --border-strong:  var(--neutral-300);
+  --border-subtle:  var(--neutral-150);
+  --border-focus:   var(--sage-500);
+
+  /* Accent — indigo (brand). Used for focus rings, links, status,
+     soft tinted surfaces, and the brand mark. NOT for primary buttons. */
+  --accent:         var(--indigo-600);
+  --accent-hover:   var(--indigo-700);
+  --accent-pressed: var(--indigo-800);
+  --accent-soft:    var(--indigo-100);
+  --accent-soft-fg: var(--indigo-800);
+
+  /* Primary button — near-black in light, near-white in dark. Confident,
+     restrained. The brand color (indigo) lives in the focus ring + brand
+     moments; the button is just "the action". */
+  --btn-primary-bg:         var(--neutral-900);
+  --btn-primary-bg-hover:   var(--neutral-800);
+  --btn-primary-bg-pressed: var(--neutral-700);
+  --btn-primary-fg:         var(--neutral-0);
+
+  /* Semantic feedback */
+  --success:      var(--success-500);
+  --success-soft: var(--success-100);
+  --success-fg:   var(--sage-800);
+  --warning:      var(--warning-500);
+  --warning-soft: var(--warning-100);
+  --warning-fg:   oklch(38% 0.10 75);
+  --danger:       var(--danger-500);
+  --danger-soft:  var(--danger-100);
+  --danger-fg:    oklch(38% 0.13 22);
+  --info:         var(--info-500);
+  --info-soft:    var(--info-100);
+  --info-fg:      var(--indigo-800);
+
+  /* Selection */
+  --selection-bg: oklch(87% 0.055 263 / 0.55);
+  --selection-fg: var(--neutral-900);
+}
+
+/* =========================================================================
+   COLOR — Dark
+   Dark mode is not just inverted; it's a separate, warmer dark palette.
+   Surfaces stay in the 16–24% lightness band so the eye relaxes; the
+   accent shifts a step lighter so contrast on dark surfaces stays safe.
+   ========================================================================= */
+[data-theme="dark"], .dark {
+  /* Surfaces */
+  --bg:          var(--neutral-950);
+  --bg-elevated: var(--neutral-900);
+  --bg-sunken:   oklch(8% 0.006 250);
+  --bg-hover:    oklch(20% 0.009 250);
+  --bg-active:   oklch(24% 0.010 250);
+  --bg-inverse:  var(--neutral-50);
+
+  /* Foreground */
+  --fg:          var(--neutral-50);
+  --fg-muted:    var(--neutral-300);
+  --fg-subtle:   var(--neutral-400);
+  --fg-faint:    var(--neutral-500);
+  --fg-inverse:  var(--neutral-900);
+  --fg-on-accent: var(--neutral-950);
+
+  /* Borders */
+  --border:         oklch(26% 0.009 250);
+  --border-strong:  oklch(34% 0.010 250);
+  --border-subtle:  oklch(20% 0.008 250);
+  --border-focus:   var(--indigo-400);
+
+  /* Accent — indigo, lifted for dark contrast */
+  --accent:         var(--indigo-400);
+  --accent-hover:   var(--indigo-300);
+  --accent-pressed: var(--indigo-500);
+  --accent-soft:    oklch(30% 0.10 263);
+  --accent-soft-fg: var(--indigo-200);
+
+  /* Primary button — inverted in dark */
+  --btn-primary-bg:         var(--neutral-50);
+  --btn-primary-bg-hover:   var(--neutral-200);
+  --btn-primary-bg-pressed: var(--neutral-300);
+  --btn-primary-fg:         var(--neutral-950);
+
+  /* Semantic — slightly desaturated for dark */
+  --success:      var(--sage-400);
+  --success-soft: oklch(28% 0.05 174);
+  --success-fg:   var(--sage-200);
+  --warning:      oklch(78% 0.13 75);
+  --warning-soft: oklch(28% 0.06 75);
+  --warning-fg:   oklch(84% 0.13 75);
+  --danger:       oklch(67% 0.15 22);
+  --danger-soft:  oklch(28% 0.06 22);
+  --danger-fg:    oklch(82% 0.13 22);
+  --info:         var(--indigo-400);
+  --info-soft:    oklch(30% 0.10 263);
+  --info-fg:      var(--indigo-200);
+
+  --selection-bg: oklch(40% 0.155 263 / 0.45);
+  --selection-fg: var(--neutral-50);
+}
+
+/* Respect OS preference when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) {
+    --bg:          var(--neutral-950);
+    --bg-elevated: var(--neutral-900);
+    --bg-sunken:   oklch(8% 0.006 250);
+    --bg-hover:    oklch(20% 0.009 250);
+    --bg-active:   oklch(24% 0.010 250);
+    --bg-inverse:  var(--neutral-50);
+
+    --fg:          var(--neutral-50);
+    --fg-muted:    var(--neutral-300);
+    --fg-subtle:   var(--neutral-400);
+    --fg-faint:    var(--neutral-500);
+    --fg-inverse:  var(--neutral-900);
+    --fg-on-accent: var(--neutral-950);
+
+    --border:        oklch(26% 0.009 250);
+    --border-strong: oklch(34% 0.010 250);
+    --border-subtle: oklch(20% 0.008 250);
+    --border-focus:  var(--indigo-400);
+
+    --accent:         var(--indigo-400);
+    --accent-hover:   var(--indigo-300);
+    --accent-pressed: var(--indigo-500);
+    --accent-soft:    oklch(30% 0.10 263);
+    --accent-soft-fg: var(--indigo-200);
+
+    --btn-primary-bg:         var(--neutral-50);
+    --btn-primary-bg-hover:   var(--neutral-200);
+    --btn-primary-bg-pressed: var(--neutral-300);
+    --btn-primary-fg:         var(--neutral-950);
+
+    --success:      var(--sage-400);
+    --success-soft: oklch(28% 0.05 174);
+    --success-fg:   var(--sage-200);
+    --warning:      oklch(78% 0.13 75);
+    --warning-soft: oklch(28% 0.06 75);
+    --warning-fg:   oklch(84% 0.13 75);
+    --danger:       oklch(67% 0.15 22);
+    --danger-soft:  oklch(28% 0.06 22);
+    --danger-fg:    oklch(82% 0.13 22);
+    --info:         var(--indigo-400);
+    --info-soft:    oklch(30% 0.10 263);
+    --info-fg:      var(--indigo-200);
+
+    --selection-bg: oklch(40% 0.155 263 / 0.45);
+    --selection-fg: var(--neutral-50);
+  }
+}
+
+/* =========================================================================
+   TYPOGRAPHY
+   ========================================================================= */
+:root {
+  /* Families */
+  --font-sans:    'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-serif:   'Instrument Serif', ui-serif, Georgia, serif;       /* marketing accent only */
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale — modular, modest ratio (~1.18 for UI, jumps wider at display) */
+  --text-2xs:  11px;
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 14px;   /* default UI body */
+  --text-md:   15px;
+  --text-lg:   17px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+  --text-4xl:  38px;
+  --text-5xl:  48px;
+  --text-6xl:  64px;
+  --text-7xl:  84px;
+
+  /* Line height */
+  --leading-tight:   1.15;
+  --leading-snug:    1.30;
+  --leading-normal:  1.50;
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-snug:   -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:    0.04em;
+  --tracking-caps:    0.08em;
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-black:   800;
+}
+
+/* ---- Semantic text styles ----
+   These can be applied as classes or referenced via @apply-style patterns.
+   Headings are tight, body is comfortable, captions are compact. */
+
+.zt-display-1 {
+  font-family: var(--font-display);
+  font-size: var(--text-7xl);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: var(--weight-bold);
+}
+.zt-display-2 {
+  font-family: var(--font-display);
+  font-size: var(--text-6xl);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: var(--weight-bold);
+}
+.zt-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  font-weight: var(--weight-bold);
+}
+.zt-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: 1.18;
+  letter-spacing: -0.018em;
+  font-weight: var(--weight-semi);
+}
+.zt-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  font-weight: var(--weight-semi);
+}
+.zt-h4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  line-height: 1.30;
+  letter-spacing: -0.008em;
+  font-weight: var(--weight-semi);
+}
+.zt-h5 {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: 1.35;
+  font-weight: var(--weight-semi);
+}
+.zt-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--weight-regular);
+}
+.zt-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--weight-regular);
+}
+.zt-body-marketing {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--weight-regular);
+  color: var(--fg-muted);
+}
+.zt-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: 1.40;
+  font-weight: var(--weight-medium);
+  color: var(--fg-muted);
+}
+.zt-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: 1.20;
+  letter-spacing: var(--tracking-caps);
+  font-weight: var(--weight-semi);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.zt-code, .zt-mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  font-weight: var(--weight-regular);
+}
+.zt-serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  letter-spacing: 0;
+}
+
+/* =========================================================================
+   SPACING — 4px grid
+   ========================================================================= */
+:root {
+  --space-0:   0;
+  --space-1:   2px;
+  --space-2:   4px;
+  --space-3:   6px;
+  --space-4:   8px;
+  --space-5:   12px;
+  --space-6:   16px;
+  --space-7:   20px;
+  --space-8:   24px;
+  --space-9:   32px;
+  --space-10:  40px;
+  --space-11:  48px;
+  --space-12:  64px;
+  --space-13:  80px;
+  --space-14:  96px;
+  --space-15: 128px;
+}
+
+/* =========================================================================
+   RADIUS
+   ========================================================================= */
+:root {
+  --radius-xs:  3px;
+  --radius-sm:  5px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+}
+
+/* =========================================================================
+   SHADOW / ELEVATION
+   Soft, low-spread shadows. Dark mode uses heavier shadows + a top
+   highlight to suggest material rather than glow.
+   ========================================================================= */
+:root {
+  --shadow-xs: 0 1px 1px oklch(20% 0.01 250 / 0.04);
+  --shadow-sm: 0 1px 2px oklch(20% 0.01 250 / 0.05),
+               0 1px 3px oklch(20% 0.01 250 / 0.04);
+  --shadow-md: 0 2px 4px oklch(20% 0.01 250 / 0.05),
+               0 4px 12px oklch(20% 0.01 250 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(20% 0.01 250 / 0.06),
+               0 12px 32px oklch(20% 0.01 250 / 0.08);
+  --shadow-xl: 0 8px 16px oklch(20% 0.01 250 / 0.08),
+               0 24px 64px oklch(20% 0.01 250 / 0.12);
+  --shadow-focus: 0 0 0 3px oklch(56% 0.190 261 / 0.25);
+  --shadow-inset: inset 0 1px 0 oklch(100% 0 0 / 0.05);
+}
+[data-theme="dark"], .dark {
+  --shadow-xs: 0 1px 1px oklch(0% 0 0 / 0.35);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.4),
+               0 1px 3px oklch(0% 0 0 / 0.3);
+  --shadow-md: 0 2px 4px oklch(0% 0 0 / 0.4),
+               0 6px 16px oklch(0% 0 0 / 0.45);
+  --shadow-lg: 0 6px 12px oklch(0% 0 0 / 0.45),
+               0 16px 40px oklch(0% 0 0 / 0.55);
+  --shadow-xl: 0 12px 24px oklch(0% 0 0 / 0.5),
+               0 32px 80px oklch(0% 0 0 / 0.6);
+  --shadow-focus: 0 0 0 3px oklch(66% 0.155 261 / 0.35);
+  --shadow-inset: inset 0 1px 0 oklch(100% 0 0 / 0.06);
+}
+
+/* =========================================================================
+   MOTION
+   ========================================================================= */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);     /* default — settles softly */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* subtle overshoot */
+  --dur-quick:   120ms;
+  --dur-base:    200ms;
+  --dur-slow:    360ms;
+}
+
+/* =========================================================================
+   BASELINE
+   ========================================================================= */
+html {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'ss01', 'cv11';
+}
+body { margin: 0; }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
