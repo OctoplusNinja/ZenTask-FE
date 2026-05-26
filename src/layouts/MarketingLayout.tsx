@@ -1,12 +1,9 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
+import zenTaskLogo from '../assets/ZenTask Logo Transparent.png';
 
 export const BrandMark = ({ size = 22 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
-    <rect x="8" y="8" width="48" height="13" rx="6.5" fill="currentColor"/>
-    <rect x="2" y="25.5" width="60" height="13" rx="6.5" fill="currentColor" transform="rotate(-40 32 32)"/>
-    <rect x="8" y="43" width="48" height="13" rx="6.5" fill="currentColor"/>
-  </svg>
+  <img src={zenTaskLogo} alt="ZenTask" width={size} height={size} style={{ objectFit: 'contain' }} />
 );
 
 const ArrowRight = () => (
